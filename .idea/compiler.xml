@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SpotifyAPI" target="16" />
+      <module name="SpotifyAPI" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
