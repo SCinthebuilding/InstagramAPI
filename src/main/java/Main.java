@@ -1,63 +1,60 @@
 import com.neovisionaries.i18n.CountryCode;
+import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
-public class Main {
-    static final String CLIENTID = "916f9184b17b47ce8144a62b71c38d32";
-    static final String REDIRECTURL = "http://localhost:8888/callback";
+public class Main
+{
+    private static final String clientId = "94733260eeea48598a43f8a49780a7b8";
+    private static final String clientSecret = "33b6015ce56448fab6e5a8675b1054fe";
+
+    private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
+            .setClientId(clientId)
+            .setClientSecret(clientSecret)
+            .build();
+
+    private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
+            .build();
+
+    public static void authenticate() {
+        try {
+            final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
+
+            // Set access token for further "spotifyApi" object usage
+            spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+
+            System.out.println("Expires in: " + clientCredentials.getExpiresIn());
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 
     public static void main(String[] args) {
 
-
-        // For all requests an access token is needed
-        SpotifyApi spotifyApi = new SpotifyApi.Builder()
-                .setAccessToken("taHZ2SdB-bPA3FsK3D7ZN5npZS47cMy-IEySVEGttOhXmqaVAIo0ESvTCLjLBifhHOHOIuhFUKPW1WMDP7w6dj3MAZdWT8CLI2MkZaXbYLTeoDvXesf2eeiLYPBGdx8tIwQJKgV8XdnzH_DONk")
-                .build();
+        authenticate();
 
         // Create a request object with the optional parameter "market"
-        final GetArtistsTopTracksRequest getSomethingRequest = spotifyApi.getArtistsTopTracks("2DaxqgrOhkeH0fpeiQq2f4", CountryCode.DE)
-                .build();
-
-        void getSomething_Sync() {
-            try {
-                // Execute the request synchronous
-                final Something something = getSomethingRequest.execute();
-
-                // Print something's name
-                System.out.println("Name: " + something.getName());
-            } catch (Exception e) {
-                System.out.println("Something went wrong!\n" + e.getMessage());
-            }
-        }
+        final GetArtistsTopTracksRequest request = spotifyApi.getArtistsTopTracks(
+                "2DaxqgrOhkeH0fpeiQq2f4", CountryCode.DE).build();
 
         try {
+            // Execute the request synchronous
+            final Track[] tracks = request.execute();
 
-
-
-            String urlAuth = "https://accounts.spotify.com/authorize?"
-                    + "client_id=" + CLIENTID + "&"
-                    + "response_type=code&"
-                    + "redirect_uri=" + REDIRECTURL + "&"
-                    + "scope=user-read-private%20user-read-email&"
-                    + "state=34fFs29kd09";
-            System.out.println(urlAuth);
-
-            URL url = new URL(urlAuth);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            if (con.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+            for (Track track : tracks) {
+                System.out.println(track.getName());
             }
-            System.out.println("Output from Server .... \n");
 
-            con.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Something went wrong!\n" + e.getMessage());
         }
     }
 }
