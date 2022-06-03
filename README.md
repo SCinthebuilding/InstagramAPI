@@ -9,5 +9,5 @@ This project is written in Java with JDK 11
 We need to print instruction on console.
 Prepare Presentation about actual project.
 Try next level projects
--Medium : show list of songs, when user picks album
--Hard :  Mix in songs from similar artists
++ Medium : show list of songs, when user picks album
++ Hard :  Mix in songs from similar artists
