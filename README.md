@@ -1,8 +1,15 @@
-11 - Spotify API
-Use the spotify API to do something cool, for example: User should be able to enter an artist and get 10 song recommendations
+##Spotify API
 
-The details of how you select these songs is up to you - there’s different ways with different levels of difficulty:
+# Description
+This project is to find the 10 most streamed songs by artist in spotify.
+You can run the code and type any artist ID in spotify you want to know.
 
-Easy: Take the 10 most streaed songs of that artist
-Medium: Let the user pick an album, pick songs from that album first
-Hard: Mix in songs from similar artists
+# Environment 
+This project is written in Java with JDK 11
+
+# Tasks
+We need to print instruction on console.
+Prepare Presentation about actual project.
+Try next level projects
+Medium : show list of songs, when user picks album
+Hard :  Mix in songs from similar artists
