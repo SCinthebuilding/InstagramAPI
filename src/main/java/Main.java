@@ -23,7 +23,7 @@ public class Main {
         System.out.print("Please enter your ClientSecret : ");
         clientSecret= scan.nextLine();
         System.out.println("=================================================================");
-
+        System.out.println("=================================================================");
         Authentication authentication = new Authentication();
         // Create a request object with the optional parameter "market"
         GetArtistsTopTracksRequest request = authentication.authenticate(clientId, clientSecret);
