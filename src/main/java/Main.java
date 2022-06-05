@@ -9,44 +9,26 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
+import utils.Authentication;
 
 import java.io.IOException;
+import java.util.Scanner;
 
-public class Main
-{
-    private static final String clientId = "94733260eeea48598a43f8a49780a7b8";
-    private static final String clientSecret = "33b6015ce56448fab6e5a8675b1054fe";
-
-    private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId(clientId)
-            .setClientSecret(clientSecret)
-            .build();
-
-    private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
-            .build();
-
-    public static void authenticate() {
-        try {
-            final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
-
-            // Set access token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(clientCredentials.getAccessToken());
-
-            System.out.println("Expires in: " + clientCredentials.getExpiresIn());
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
+public class Main {
 
     public static void main(String[] args) {
+        String clientId, clientSecret;
 
-        authenticate();
-
+        Scanner scan = new Scanner(System.in);
+        System.out.println("=================================================================");
+        System.out.print("Please enter your ClientId : ");
+        clientId = scan.nextLine();
+        System.out.print("Please enter your ClientSecret : ");
+        clientSecret= scan.nextLine();
+        System.out.println("=================================================================");
+        Authentication authentication = new Authentication();
         // Create a request object with the optional parameter "market"
-        final GetArtistsTopTracksRequest request = spotifyApi.getArtistsTopTracks(
-                "2DaxqgrOhkeH0fpeiQq2f4", CountryCode.DE).build();
+        GetArtistsTopTracksRequest request = authentication.authenticate(clientId, clientSecret);
 
         try {
             // Execute the request synchronous
