@@ -9,19 +9,24 @@ import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest
 import utils.Authentication;
 
 import java.io.IOException;
+import java.util.Scanner;
 
-public class Main
-{
-    private static final String clientId = "94733260eeea48598a43f8a49780a7b8";
-    private static final String clientSecret = "33b6015ce56448fab6e5a8675b1054fe";
+public class Main {
 
     public static void main(String[] args) {
+        String clientId, clientSecret;
 
+        Scanner scan = new Scanner(System.in);
+        System.out.println("=================================================================");
+        System.out.print("Please enter your ClientId : ");
+        clientId = scan.nextLine();
+        System.out.print("Please enter your ClientSecret : ");
+        clientSecret= scan.nextLine();
+        System.out.println("=================================================================");
 
         Authentication authentication = new Authentication();
-
         // Create a request object with the optional parameter "market"
-        final GetArtistsTopTracksRequest request =  authentication.authenticate(clientId,clientSecret);
+        GetArtistsTopTracksRequest request = authentication.authenticate(clientId, clientSecret);
 
         try {
             // Execute the request synchronous
