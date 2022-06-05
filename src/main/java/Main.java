@@ -3,8 +3,11 @@ import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
 
 import java.io.IOException;
@@ -56,5 +59,22 @@ public class Main
         } catch (Exception e) {
             System.out.println("Something went wrong!\n" + e.getMessage());
         }
+
+        // get number of Albums by artist
+        final GetArtistsAlbumsRequest getArtistsAlbumsRequest = spotifyApi.getArtistsAlbums("2DaxqgrOhkeH0fpeiQq2f4")
+//          .album_type("album")
+//          .limit(10)
+//          .offset(0)
+//          .market(CountryCode.SE)
+                .build();
+
+            try {
+                final Paging<AlbumSimplified> albumSimplifiedPaging = getArtistsAlbumsRequest.execute();
+
+                System.out.println("Total: " + albumSimplifiedPaging.getTotal());
+            } catch (IOException | SpotifyWebApiException | ParseException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+
     }
-}
