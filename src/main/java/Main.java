@@ -4,11 +4,9 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.IModelObject;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
-import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Artist;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
@@ -61,6 +59,7 @@ public class Main
                 .build();
 
         String artistId = null;
+
         try {
             final Paging<Artist> artistPaging = searchArtistsRequest.execute();
             Artist[] listOfArtists = artistPaging.getItems();
@@ -84,6 +83,18 @@ public class Main
 
         } catch (Exception e) {
             System.out.println("Something went wrong!\n" + e.getMessage());
+        }
+
+        // get Albums by artistId
+        final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(artistId)
+          .market(CountryCode.DE)
+                .build();
+
+        try {
+            final Album album = getAlbumRequest.execute();
+            System.out.println("\n albums from " + artistName + " are" + album.getName());
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
 
