@@ -50,7 +50,7 @@ public class Main
         authenticate();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Type the name of an artist");
+        System.out.println("Type the name of an artist and press Enter");
         String artistName = sc.nextLine();
 
         final SearchArtistsRequest searchArtistsRequest = spotifyApi.searchArtists(artistName)
@@ -77,7 +77,7 @@ public class Main
         try {
             // Execute the request synchronous
             final Track[] tracks = request.execute();
-
+            System.out.println("Top 10 songs from " + artistName + " are :");
             for (Track track : tracks) {
                 System.out.println(track.getName());
             }
