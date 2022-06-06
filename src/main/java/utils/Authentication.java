@@ -27,12 +27,9 @@ public class Authentication {
             ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
                     .build();
             ClientCredentials clientCredentials = clientCredentialsRequest.execute();
-
-            // Set access token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
 
             System.out.println("Expires in: " + clientCredentials.getExpiresIn());
-
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
@@ -40,7 +37,7 @@ public class Authentication {
     }
 
     public String returnArtistId(String clientId, String clientSecret, String artistName) throws IOException, ParseException, SpotifyWebApiException {
-        buildSpotify(clientId,clientSecret);
+        buildSpotify(clientId, clientSecret);
         SearchArtistsRequest searchArtistsRequest = spotifyApi.searchArtists(artistName)
                 .market(CountryCode.SE)
                 .limit(10)
