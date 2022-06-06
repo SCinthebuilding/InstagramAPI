@@ -57,7 +57,7 @@ public class Main {
 
         switch (choice) {
             case 1:
-                System.out.println("Top Tracks of your Artist :");
+                System.out.println("Top Tracks of your Artist");
                 authentication.getArtistsTopTracks(artistId);
             case 2:
                 System.out.println("List of the Albums of your Artist");
