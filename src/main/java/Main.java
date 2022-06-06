@@ -64,39 +64,45 @@ public class Main
             final Paging<Artist> artistPaging = searchArtistsRequest.execute();
             Artist[] listOfArtists = artistPaging.getItems();
             artistId = listOfArtists[0].getId();
-            System.out.println("ID of your artist: " + artistId);
+            //System.out.println("ID of your artist: " + artistId);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: There is not Artist named like" + e.getMessage());
         }
 
-        // get artist 10 top tracks
-        final GetArtistsTopTracksRequest request = spotifyApi.getArtistsTopTracks(
-                artistId, CountryCode.DE).build();
+        System.out.println("What do you want to check about your artist? \n enter 1 for top 10 tracks, 2 for list of albums ");
+        int aOrb = sc.nextInt();
+        if(aOrb == 1) {
+            // get artist 10 top tracks
+            final GetArtistsTopTracksRequest request = spotifyApi.getArtistsTopTracks(
+                    artistId, CountryCode.DE).build();
 
-        try {
-            // Execute the request synchronous
-            final Track[] tracks = request.execute();
-            System.out.println("Top 10 songs from " + artistName + " are :");
-            for (Track track : tracks) {
-                System.out.println(track.getName());
+            try {
+                // Execute the request synchronous
+                final Track[] tracks = request.execute();
+                System.out.println("Top 10 songs from " + artistName + " are :");
+                for (Track track : tracks) {
+                    System.out.println(track.getName());
+                }
+
+            } catch (Exception e) {
+                System.out.println("Something went wrong!\n" + e.getMessage());
             }
+        } else if (aOrb == 2) {
+            // get Albums by artistId
+            final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(artistId)
+                    .market(CountryCode.DE)
+                    .build();
 
-        } catch (Exception e) {
-            System.out.println("Something went wrong!\n" + e.getMessage());
+            try {
+                final Album album = getAlbumRequest.execute();
+                System.out.println("\n albums from " + artistName + " are" + album.getName());
+            } catch (IOException | SpotifyWebApiException | ParseException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        } else{
+            System.out.println("Wrong input, please try again");
         }
-
-        // get Albums by artistId
-        final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(artistId)
-          .market(CountryCode.DE)
-                .build();
-
-        try {
-            final Album album = getAlbumRequest.execute();
-            System.out.println("\n albums from " + artistName + " are" + album.getName());
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
+        // TODO: 6/6/2022 add Error handlings
 
     }
 
