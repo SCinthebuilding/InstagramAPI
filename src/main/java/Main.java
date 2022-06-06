@@ -64,7 +64,7 @@ public class Main
             final Paging<Artist> artistPaging = searchArtistsRequest.execute();
             Artist[] listOfArtists = artistPaging.getItems();
             artistId = listOfArtists[0].getId();
-            //System.out.println("ID of your artist: " + artistId);
+            System.out.println("ID of your artist: " + artistId);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: There is not Artist named like" + e.getMessage());
         }
@@ -89,13 +89,17 @@ public class Main
             }
         } else if (aOrb == 2) {
             // get Albums by artistId
-            final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(artistId)
+            final GetArtistsAlbumsRequest getArtistsAlbumsRequest = spotifyApi.getArtistsAlbums(artistId)
                     .market(CountryCode.DE)
                     .build();
 
             try {
-                final Album album = getAlbumRequest.execute();
-                System.out.println("\n albums from " + artistName + " are" + album.getName());
+                final Paging<AlbumSimplified> albumSimplifiedPaging = getArtistsAlbumsRequest.execute();
+                System.out.println("\n albums from " + artistName + " are" );
+                AlbumSimplified[] albums = albumSimplifiedPaging.getItems();
+                for( AlbumSimplified album : albums) {
+                    System.out.println(album.getName());
+                }
             } catch (IOException | SpotifyWebApiException | ParseException e) {
                 System.out.println("Error: " + e.getMessage());
             }
