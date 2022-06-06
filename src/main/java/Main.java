@@ -16,7 +16,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ParseException, SpotifyWebApiException {
+    public static void main(String[] args){
+        menu();
+    }
+
+    public static void menu(){
         String clientId, clientSecret,artistName;
 
         Scanner scan = new Scanner(System.in);
@@ -29,6 +33,11 @@ public class Main {
         artistName = scan.nextLine();
         System.out.println("=================================================================");
         Authentication authentication = new Authentication();
-        System.out.printf("Artist's Id : %s ",authentication.returnArtistId(clientId,clientSecret,artistName));
+        try{
+            System.out.printf("Artist's Id : %s ",authentication.returnArtistId(clientId,clientSecret,artistName));
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }
