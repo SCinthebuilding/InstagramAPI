@@ -63,7 +63,7 @@ public class Main {
                 case 3:
                     System.out.print("please enter your specific album : ");
                     // albumName = scan.nextLine();
-                    //call function
+                    //TODO : call function
                     break;
                 case 4:
                     return;

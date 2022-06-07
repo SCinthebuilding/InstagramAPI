@@ -5,11 +5,9 @@ import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
-import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Artist;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchArtistsRequest;
@@ -45,7 +43,7 @@ public class Authentication {
 
     public String returnArtistId(String artistName) throws IOException, ParseException, SpotifyWebApiException {
         SearchArtistsRequest searchArtistsRequest = spotifyApi.searchArtists(artistName)
-                .market(CountryCode.SE)
+                .market(CountryCode.DE)
                 .limit(10)
                 .build();
 
@@ -86,8 +84,20 @@ public class Authentication {
         }
     }
 
-    public void getSongsOfSpecificAlbum(String artistId)
+    public void getAlbumsTracks(String albumId)
     {
+       GetAlbumsTracksRequest albumsTracksRequest =  spotifyApi.getAlbumsTracks(albumId).
+               market(CountryCode.DE).build();
 
+        try {
+            // Execute the request synchronous
+            final Paging<TrackSimplified> tracks = albumsTracksRequest.execute();
+            for (TrackSimplified track : tracks.getItems()) {
+                System.out.println(track.getName());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Something went wrong!\n" + e.getMessage());
+        }
     }
 }
