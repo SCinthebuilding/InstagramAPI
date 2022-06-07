@@ -4,7 +4,7 @@
 
 # Spotify API
 
-A Java wrapper for Spotify's Web API.
+A Java wrapper for Spotify's Web API..
 ## Installation
 
 This library is available on [Maven Central](https://search.maven.org/artifact/de.sonallux.spotify/spotify-web-api-java)
