@@ -90,7 +90,6 @@ public class Authentication {
                market(CountryCode.DE).build();
 
         try {
-            // Execute the request synchronous
             final Paging<TrackSimplified> tracks = albumsTracksRequest.execute();
             for (TrackSimplified track : tracks.getItems()) {
                 System.out.println(track.getName());
