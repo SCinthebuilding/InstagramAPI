@@ -16,38 +16,44 @@ import java.io.IOException;
 
 public class Main
 {
-    private static final String clientId = "94733260eeea48598a43f8a49780a7b8";
-    private static final String clientSecret = "33b6015ce56448fab6e5a8675b1054fe";
-
-    private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId(clientId)
-            .setClientSecret(clientSecret)
-            .build();
+    private static SpotifyApi spotifyApi;
+    //private static final String clientId = InID;
+    //private static final String clientSecret = InSecret;
 
 
-    private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
-            .build();
-
-    public static void authenticate() {
+    public static SpotifyApi authenticate(String clientId, String clientSecret) {
         try {
+
+            final SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                    .setClientId(clientId)
+                    .setClientSecret(clientSecret)
+                    .build();
+
+
+            final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
+                    .build();
+
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
 
             // Set access token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
 
             System.out.println("Expires in: " + clientCredentials.getExpiresIn());
-
+            return spotifyApi;
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
+            return spotifyApi;
         }
     }
 
 
     public static void main(String[] args) {
-
-        authenticate();
-
         Scanner sc = new Scanner(System.in);
+        System.out.println("Type ID");
+        String clientId = sc.nextLine();
+        System.out.println("Type Secret");
+        String clientSecret = sc.nextLine();
+        spotifyApi = authenticate(clientId, clientSecret);
         System.out.println("Type the name of an artist and press Enter");
         String artistName = sc.nextLine();
 
