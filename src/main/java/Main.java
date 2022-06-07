@@ -37,7 +37,6 @@ public class Main {
         authentication = new Authentication(clientId, clientSecret);
         try {
             String artistId = authentication.returnArtistId(artistName);
-            System.out.printf("Artist's Id : %s \n", artistId);
             subMenu(artistId);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -49,26 +48,38 @@ public class Main {
         int choice;
         String albumName;
         Scanner scan = new Scanner(System.in);
-        System.out.print(". enter 1 to get 10 top tracks of your artist ");
-        System.out.print(". enter 2 to get albums of your artist ");
-        System.out.print(". enter 3 to get tracks of specific album of your artist ");
-        choice = scan.nextInt();
-        while (choice != 1 && choice != 2) {
-            System.out.print("Please enter 1 or 2 : ");
+        menuItems();
+        while (scan.hasNextInt()) {
             choice = scan.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Top Tracks of your Artist");
+                    authentication.getArtistsTopTracks(artistId);
+                    break;
+                case 2:
+                    System.out.println("List of the Albums of your Artist");
+                    authentication.getArtistsAlbums(artistId);
+                    break;
+                case 3:
+                    System.out.print("please enter your specific album : ");
+                    // albumName = scan.nextLine();
+                    //call function
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.print("Your input is wrong.Please enter a number between 1-4");
+                    break;
+            }
+            menuItems();
         }
+    }
 
-        switch (choice) {
-            case 1:
-                System.out.println("Top Tracks of your Artist");
-                authentication.getArtistsTopTracks(artistId);
-            case 2:
-                System.out.println("List of the Albums of your Artist");
-                authentication.getArtistsAlbums(artistId);
-            case 3:
-                System.out.print("please enter your specific album : ");
-               // albumName = scan.nextLine();
-
-        }
+    public static void menuItems() {
+        System.out.println("Please choose one of the items :  ");
+        System.out.println(". enter 1 to get 10 top tracks of your artist ");
+        System.out.println(". enter 2 to get albums of your artist ");
+        System.out.println(". enter 3 to get tracks of specific album of your artist ");
+        System.out.println(". enter 4 to exit ");
     }
 }
