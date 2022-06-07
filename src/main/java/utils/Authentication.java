@@ -21,6 +21,10 @@ import java.util.List;
 public class Authentication {
    private SpotifyApi spotifyApi = null;
 
+    public Authentication(String clientId, String clientSecret) {
+        buildSpotify(clientId,clientSecret);
+    }
+
     public void buildSpotify(String clientId, String clientSecret) {
         try {
             spotifyApi = new SpotifyApi.Builder()
@@ -80,5 +84,10 @@ public class Authentication {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void getSongsOfSpecificAlbum(String artistId)
+    {
+
     }
 }

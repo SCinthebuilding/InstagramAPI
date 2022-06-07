@@ -16,7 +16,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static Authentication authentication = new Authentication();
+    public static Authentication authentication;
+
     public static void main(String[] args) {
         menu();
     }
@@ -33,8 +34,7 @@ public class Main {
         System.out.print("Please enter your Artist's name : ");
         artistName = scan.nextLine();
 
-
-        authentication.buildSpotify(clientId, clientSecret);
+        authentication = new Authentication(clientId, clientSecret);
         try {
             String artistId = authentication.returnArtistId(artistName);
             System.out.printf("Artist's Id : %s \n", artistId);
@@ -47,8 +47,11 @@ public class Main {
 
     public static void subMenu(String artistId) {
         int choice;
+        String albumName;
         Scanner scan = new Scanner(System.in);
-        System.out.print("enter 1 to get 10 top tracks of your artist OR enter 2 to get albums of your artist : ");
+        System.out.print(". enter 1 to get 10 top tracks of your artist ");
+        System.out.print(". enter 2 to get albums of your artist ");
+        System.out.print(". enter 3 to get tracks of specific album of your artist ");
         choice = scan.nextInt();
         while (choice != 1 && choice != 2) {
             System.out.print("Please enter 1 or 2 : ");
@@ -61,7 +64,11 @@ public class Main {
                 authentication.getArtistsTopTracks(artistId);
             case 2:
                 System.out.println("List of the Albums of your Artist");
-               authentication.getArtistsAlbums(artistId);
+                authentication.getArtistsAlbums(artistId);
+            case 3:
+                System.out.print("please enter your specific album : ");
+               // albumName = scan.nextLine();
+
         }
     }
 }
