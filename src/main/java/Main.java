@@ -65,7 +65,7 @@ public class Main {
     }
 
     public static void menuItems() {
-        System.out.println("\nPlease choose one of the items :  ");
+        System.out.println("\nPlease choose one of the items : ");
         System.out.println(". enter 1 to get 10 top tracks of your artist ");
         System.out.println(". enter 2 to get albums of your artist ");
         System.out.println(". enter 3 to get tracks of specific album of your artist ");
